@@ -1,6 +1,6 @@
 
 # think-sensitive
-thinkphp6+ 敏感词检测，过滤
+thinkphp6+ 敏感词检测，过滤，标记
 
 <p>
     <a href="https://packagist.org/packages/isszz/think-sensitive"><img src="https://img.shields.io/badge/php->=8.0-8892BF.svg" alt="Minimum PHP Version"></a>
