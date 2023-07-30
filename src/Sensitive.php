@@ -67,6 +67,19 @@ class Sensitive
 	}
 
     /**
+     * 被检测内容是否合法|简写
+     *
+     * @param $content
+     *
+     * @return bool
+     * @throws \isszz\sensitive\SensitiveException
+     */
+    public function is(string $content)
+    {
+        return $this->check($content);
+    }
+
+    /**
      * 被检测内容是否合法
      *
      * @param $content
@@ -76,7 +89,7 @@ class Sensitive
      */
 	public function check(string $content)
 	{
-        $this->contentLength = mb_strlen($content, 'utf-8');
+        $this->contentLength = sensitive_mb_strlen($content, 'utf-8');
 
         for ($length = 0; $length < $this->contentLength; $length++) {
             $matchFlag = 0;
@@ -148,7 +161,7 @@ class Sensitive
         	$repeat = $this->config['repeat'] ?? false;
         }
 
-        $badWordList = $this->badWordList ? $this->badWordList : $this->getBadWord($content, $matchType);
+        $badWordList = $this->badWordList ? $this->badWordList : $this->get($content, $matchType);
 
         // 未检测到敏感词，直接返回
         if (empty($badWordList)) {
@@ -172,13 +185,13 @@ class Sensitive
      * 标记敏感词
      *
      * @param string $content 文本内容
-     * @param string|null $tag 标签开头，如mark
+     * @param string $tag 标签开头，如mark
      * @param int $matchType 匹配类型，默认为最小匹配规则
      *
      * @return mixed
      * @throws \isszz\sensitive\SensitiveException
      */
-    public function mark(string $content, string|null $tag = '', $matchType = 1)
+    public function mark(string $content, string $tag = '', $matchType = 1)
     {
         if (empty($content)) {
             throw new SensitiveException('Please fill in the content of the test', 1);
@@ -191,7 +204,7 @@ class Sensitive
         $sTag = '<'. $tag .'>';
         $eTag = '</'. $tag .'>';
 
-        $badWordList = $this->badWordList ? $this->badWordList : $this->getBadWord($content, $matchType);
+        $badWordList = $this->badWordList ? $this->badWordList : $this->get($content, $matchType);
 
         // 未检测到敏感词，直接返回
         if (empty($badWordList)) {
@@ -219,9 +232,9 @@ class Sensitive
      * @return array
      * @throws \isszz\sensitive\SensitiveException
      */
-    public function getBadWord(string $content, $matchType = 1, $wordNum = 0)
+    public function get(string $content, $matchType = 1, $wordNum = 0)
     {
-        $this->contentLength = mb_strlen($content, 'utf-8');
+        $this->contentLength = sensitive_mb_strlen($content, 'utf-8');
         $badWordList = [];
 
         for ($length = 0; $length < $this->contentLength; $length++) {
@@ -346,7 +359,7 @@ class Sensitive
      */ 
     public function removeToTree(string $word, bool $once = false)
     {
-        for ($i = 0; $i < mb_strlen($word, 'utf-8'); $i++) {
+        for ($i = 0; $i < sensitive_mb_strlen($word, 'utf-8'); $i++) {
             $this->wordTree->remove(mb_substr($word, $i, 1, 'utf-8'));
         }
 
@@ -403,7 +416,7 @@ class Sensitive
     public function setFile(string $file)
     {
         if (!is_file($file)) {
-            throw new SensitiveException('Thesaurus file does not exist', 3);
+            throw new SensitiveException('The sensitive words file does not exist', 3);
         }
 
         $this->wordTree = $this->wordTree ?: new HashMap;
@@ -426,7 +439,7 @@ class Sensitive
     public function setTree(array|null $sensitiveWords = null)
     {
         if (empty($sensitiveWords)) {
-            throw new SensitiveException('The thesaurus cannot be empty', 2);
+            throw new SensitiveException('The sensitive words cannot be empty', 2);
         }
 
         $this->wordTree = $this->wordTree ?: new HashMap;
@@ -538,7 +551,7 @@ class Sensitive
 
         $tree = $this->wordTree;
 
-        $wordLength = mb_strlen($word, 'utf-8');
+        $wordLength = sensitive_mb_strlen($word, 'utf-8');
         for ($i = 0; $i < $wordLength; $i++) {
             $keyChar = mb_substr($word, $i, 1, 'utf-8');
 
@@ -577,7 +590,7 @@ class Sensitive
     protected function dfaBadWordConversChars($word, $char)
     {
         $str = '';
-        $length = mb_strlen($word, 'utf-8');
+        $length = sensitive_mb_strlen($word, 'utf-8');
 
         for ($counter = 0; $counter < $length; ++$counter) {
             $str .= $char;

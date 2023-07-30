@@ -13,6 +13,9 @@
         "topthink/framework": "8.*|6.0.*"
     },
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "isszz\\sensitive\\": "src"
         }

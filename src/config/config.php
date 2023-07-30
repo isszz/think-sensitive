@@ -1,7 +1,7 @@
 <?php
 
 return [
-    // 支持file，array
+    // 支持file，array，也可以指向自己敏感词库文件路径
     'mode' => 'file', // file模式时，敏感词库位于tp根目录的config/sensitive/SensitiveWord.txt，也可以指向自定义的词库文件路径
 
     'config' => [
