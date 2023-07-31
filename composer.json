@@ -1,6 +1,6 @@
 {
     "name": "isszz/think-sensitive",
-    "description": "thinkphp6+ 敏感词检测，过滤",
+    "description": "thinkphp6+ 敏感词检测，过滤，标记",
     "license": "MIT",
     "authors": [
         {
