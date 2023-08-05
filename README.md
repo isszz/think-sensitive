@@ -159,3 +159,10 @@ class Index
     }
 }
 ```
+使用`request`替换违禁词，当然也可以使用`sensitive_mark`标记
+```php
+// 调用助手类
+$content = Request::get('content', '', 'sensitive_replace');
+// 使用facade类
+$content = Request::get('content', '', 'isszz\sensitive\facade\Sensitive::replace');
+```
