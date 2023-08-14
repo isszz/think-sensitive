@@ -532,9 +532,13 @@ class Sensitive
         }
 
         while (!feof($handle)) {
-            yield str_replace(['\'', ' ', PHP_EOL, ','], '', fgets($handle));
-        }
+            if ($line = fgets($handle) and $line === false) {
+                continue;
+            }
 
+            yield str_replace(['\'', ' ', PHP_EOL, ','], '', $line);
+        }
+        
         fclose($handle);
     }
 
